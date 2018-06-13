@@ -1,5 +1,5 @@
 import utime
-from imu import MPU6050
+from uPySensors.imu import MPU6050
 from servo import Servo
 from machine import Pin
 import math
