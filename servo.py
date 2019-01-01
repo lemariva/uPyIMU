@@ -19,6 +19,7 @@
 '''
 
 from machine import Pin, PWM
+from uos import uname
 PERC_100 = 10000  # in 100% * 100
 
 class Servo:
@@ -33,8 +34,8 @@ class Servo:
         :channel: PWM unit
         :param frequency: in Hz
         :param full_range100: in deg
-        :param pulse_min: in µs
-        :param pulse_max: in µs
+        :param pulse_min: in µs (WiPy3.0) in Duty (for ESP32, it should be - 30)
+        :param pulse_max: in µs (WiPy3.0) in Duty (for ESP32, it should be - 30)
         :return:
         """
 
@@ -47,10 +48,12 @@ class Servo:
     	self.min_position = 0
     	self.max_position = 180
 
-    	# Configure PWM timer to pin flow
-    	self.pwm = PWM(0, frequency=self.PWM_frame)
-    	self.servo = self.pwm.channel(channel, pin=gp_pin, duty_cycle=0.077)  # initial duty cycle of 7.5%
-
+        if (uname().sysname == 'WiPy'):
+        	# Configure PWM timer to pin flow
+        	self.pwm = PWM(0, frequency=self.PWM_frame)
+        	self.servo = self.pwm.channel(channel, pin=gp_pin, duty_cycle=0.077)  # initial duty cycle of 7.5%
+        else:
+            self.pwm = PWM(gp_pin, freq=self.PWM_frame)
 
     def angle(self, angle100):
         """
@@ -60,5 +63,8 @@ class Servo:
         """
         angle_fraction = float(angle100) / float(self.full_range100)
         pulse_width = float(self.pulse_min + angle_fraction * self.pulse_diff) # in µs
-        duty_cycle =  pulse_width * 100 / (1000 / self.PWM_frame) / 100
-        self.servo.duty_cycle(duty_cycle)
+        if (uname().sysname == 'WiPy'):
+            duty_cycle =  pulse_width * 100 / (1000 / self.PWM_frame) / 100
+            self.servo.duty_cycle(duty_cycle)
+        else:
+            self.pwm.duty(int(pulse_width))
