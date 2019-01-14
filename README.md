@@ -1,7 +1,7 @@
 # uPyIMU
 
 This code allows you to stabilize a camera using:
-* IMU6055/IMU9255
+* IMU6050/IMU9255
 * WiPy 2.0/3.0 (or ESP32)
 * Micro Servos 9g
 * Camera Tripod
@@ -11,8 +11,8 @@ The code uses the `ahrs` library from <a href="http://x-io.co.uk/open-source-imu
 ## Connections
 |   |
 |:-:|
-|<img src="https://raw.githubusercontent.com/lemariva/uPyIMU/master/fritzing/uPyMPU_bb.png" alt="WiPy 3.0, MPU6055 &amp; Micro Servo 9g" width="400px">|
-|Fig. 1: WiPy, MPU6055 &amp; MicroServos|
+|<img src="https://raw.githubusercontent.com/lemariva/uPyIMU/master/fritzing/uPyMPU_bb.png" alt="WiPy 3.0, IMU6055 &amp; Micro Servo 9g" width="400px">|
+|Fig. 1: WiPy, IMU6055 &amp; MicroServos|
 
 ### Cable description
 |   |   |
